@@ -1,6 +1,7 @@
-# client
+## notesapp client
+This is the client part of Notes app (see my notesapp repo).
 
-## Project setup
+### Project setup
 ```
 npm install
 ```
