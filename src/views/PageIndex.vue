@@ -57,6 +57,9 @@ export default {
     onFailure(error) {
       console.log(error)
     }
+  },
+  created() {
+    this.$emit('ready')
   }
 }
 </script>

@@ -9,38 +9,27 @@
         src="../assets/caret.svg"
       />
       <img class="trash" src="../assets/trash.svg" @click="showFolderModal" />
+      <img
+        v-show="loaderShow"
+        class="item-loader"
+        src="../assets/item-loader.gif"
+      />
     </div>
     <transition-group v-show="showNotes" name="slide-fade" tag="ul">
-      <li class="file" v-for="note in getFolNotes" :key="note.id">
-        <div class="raise">
-          <router-link
-            :to="{
-              name: 'old-note',
-              params: { id: note.id, mode: 'view' }
-            }"
-          >
-            {{ note.title }}
-          </router-link>
-          <router-link
-            :to="{
-              name: 'old-note',
-              params: { id: note.id, mode: 'edit' }
-            }"
-            ><img src="../assets/edit.svg" class="edit"
-          /></router-link>
-          <img
-            src="../assets/trash.svg"
-            class="trash"
-            @click="showFileModal(note)"
-          />
-        </div>
-      </li>
+      <note-item
+        v-for="note in getFolNotes"
+        :key="note.id"
+        :note="note"
+        @deleteNote="deleteNote"
+        @delEvent="deliverMsg"
+      />
       <folder-item
         v-for="name in uniqueStart"
         :key="name"
         :notelist="getNotes(name)"
         :name="name"
         @deleteFolder="deleteFolder"
+        @delEvent="deliverMsg"
       />
     </transition-group>
   </li>
@@ -48,10 +37,14 @@
 
 <script>
 import FolderItem from '@/components/FolderItem.vue'
+import NoteItem from '@/components/NoteItem.vue'
+import { delFolderServer } from '@/asyncActions'
+
 export default {
   name: 'folder-item',
   components: {
-    FolderItem
+    FolderItem,
+    NoteItem
   },
   props: {
     notelist: {
@@ -66,7 +59,8 @@ export default {
   data() {
     return {
       showNotes: false,
-      notes: [...this.notelist]
+      notes: [...this.notelist],
+      loaderShow: false
     }
   },
   computed: {
@@ -151,43 +145,45 @@ export default {
           console.log(err)
         })
     },
-    showFileModal(note) {
-      this.$bvModal
-        .msgBoxConfirm('Do you want to delete this note?', {
-          title: 'Confirm delete',
-          okVariant: 'danger',
-          okTitle: 'Delete',
-          cancelTitle: 'Cancel',
-          footerClass: 'p-2',
-          hideHeaderClose: false
-        })
-        .then(value => {
-          if (value) {
-            this.delNote(note)
+    delFolder() {
+      this.loaderShow = true
+      this.showFolder = false
+      this.$emit('deleteFolder', {
+        name: this.notes[0].folder,
+        msg: true,
+        server: true
+      })
+    },
+    deleteFolder({ name, msg, server }) {
+      console.log('in component', name, server)
+      if (server) {
+        delFolderServer({ folder: name }).then(data => {
+          this.loaderShow = false
+          if (msg) {
+            this.$emit('delEvent', data)
+          }
+          this.notes = this.notes.filter(note => !note.folder.startsWith(name))
+          if (this.notes.length === 0) {
+            this.$emit('deleteFolder', { name, msg: false, server: false })
           }
         })
-        .catch(err => {
-          console.log(err)
-        })
+      } else {
+        this.notes = this.notes.filter(note => !note.folder.startsWith(name))
+        if (this.notes.length === 0) {
+          this.$emit('deleteFolder', { name, msg: false, server: false })
+        }
+      }
     },
-    delFolder() {
-      this.showFolder = false
-      this.$emit('deleteFolder', { name: this.notes[0].folder })
-    },
-    delNote({ id }) {
-      this.showFile = false
+    deleteNote(id) {
       const temp = this.notes[0].folder
       const index = this.notes.findIndex(note => note.id === id)
       this.notes.splice(index, 1)
       if (this.notes.length === 0) {
-        this.$emit('deleteFolder', { name: temp })
+        this.$emit('deleteFolder', { name: temp, msg: false, server: false })
       }
     },
-    deleteFolder({ name }) {
-      this.notes = this.notes.filter(note => !note.folder.startsWith(name))
-      if (this.notes.length === 0) {
-        this.$emit('deleteFolder', { name })
-      }
+    deliverMsg(data) {
+      this.$emit('delEvent', data)
     }
   }
 }
@@ -201,8 +197,7 @@ ul {
   position: relative;
   bottom: 6px;
 }
-.caret,
-.edit {
+.caret {
   position: relative;
   bottom: 2px;
   margin-left: 15px;
@@ -217,19 +212,18 @@ ul {
 }
 .trash {
   position: relative;
-  bottom: 4px;
+  bottom: 2px;
   cursor: pointer;
+}
+.item-loader {
+  margin-left: 5px;
+  position: relative;
+  bottom: 2px;
 }
 li {
   padding: 5px 0;
 }
 li.folder {
   list-style-image: url(../assets/folder.svg);
-}
-li.file {
-  list-style-image: url(../assets/file.svg);
-}
-a {
-  color: blue;
 }
 </style>

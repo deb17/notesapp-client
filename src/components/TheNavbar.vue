@@ -64,6 +64,7 @@ export default {
 .signout {
   background: none;
   border: none;
+  outline: none;
   font-size: 1rem;
   cursor: pointer;
   color: darkblue;

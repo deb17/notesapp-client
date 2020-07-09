@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="asyncDataReady" class="container">
     <TheNavbar />
     <div v-if="mode === 'edit'">
       <b-form-group
@@ -69,7 +69,8 @@
 
 <script>
 import TheNavbar from '@/components/TheNavbar.vue'
-import store from '../store'
+// import store from '../store'
+import { getNote, saveNote } from '@/asyncActions'
 
 export default {
   components: {
@@ -89,6 +90,7 @@ export default {
     return {
       note: null,
       showError: false,
+      asyncDataReady: false,
       toolbar:
         'clean redo undo bold italic strikethrough heading image link numlist bullist code quote preview fullscreen',
       options: {
@@ -140,15 +142,11 @@ export default {
       }
       if (this.state1 && this.state2 && this.note.contents) {
         this.note.folder = this.note.folder.replace(/^\/+|\/+$/g, '')
-        if (this.note.id === 0) {
-          this.note.id = 100 + Math.floor(Math.random() * 100)
-          this.note.ts = Date.now()
-          store.notes.push(this.note)
-        } else {
+        if (this.note.id !== 0) {
           this.note.status = 'Updated'
-          this.note.ts = Date.now()
         }
-        this.$router.push({ name: 'home', params: { msg: 'Note saved.' } })
+        this.note.ts = Date.now()
+        saveNote(this.note)
       } else if (!this.note.contents) {
         this.showError = true
       }
@@ -158,20 +156,37 @@ export default {
     }
   },
   created() {
-    if (this.id) {
-      this.note = store.notes.find(note => note.id === parseInt(this.id))
+    const id = parseInt(this.id)
+    if (id) {
+      // this.note = store.notes.find(note => note.id === parseInt(this.id))
+      getNote(id).then(note => {
+        this.note = note
+        this.$nextTick(() => {
+          this.asyncDataReady = true
+          this.$emit('ready')
+          // if (this.mode === 'view') {
+          //   this.$refs.md.command('preview')
+          // }
+        })
+      })
     } else {
       this.note = {
-        id: this.id,
+        id,
         title: null,
         folder: 'main',
         contents: '',
         status: 'Created',
         ts: 0
       }
+      this.$nextTick(() => {
+        this.asyncDataReady = true
+        this.$emit('ready')
+      })
     }
   },
-  mounted() {
+  updated() {
+    console.log('updated hook')
+    // this.$emit('ready')
     if (this.mode === 'view') {
       this.$refs.md.command('preview')
     }
