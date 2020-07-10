@@ -40,7 +40,7 @@ body {
 }
 .slide-fade-leave-active {
   transition: all 0.3s ease;
-  background-color: lightgray;
+  background-color: white;
 }
 .slide-fade-leave-to {
   transform: translateX(-100px);

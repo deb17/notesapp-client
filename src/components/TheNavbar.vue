@@ -47,7 +47,7 @@ export default {
   background-color: lightblue;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 10;
 }
 .navBar a.router-link-exact-active {
   color: green;

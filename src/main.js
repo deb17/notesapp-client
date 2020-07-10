@@ -1,17 +1,17 @@
 import 'v-markdown-editor/dist/v-markdown-editor.css'
 import Vue from 'vue'
 import Editor from 'v-markdown-editor'
-import { BootstrapVue } from 'bootstrap-vue'
+import { BVModalPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://127.0.0.1:5000/api'
+axios.defaults.baseURL = 'https://storenotes.pythonanywhere.com/api'
 
 Vue.use(Editor)
-Vue.use(BootstrapVue)
+Vue.use(BVModalPlugin)
 
 Vue.config.productionTip = false
 

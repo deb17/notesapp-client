@@ -47,11 +47,7 @@ export default {
     GoogleLogin
   },
   methods: {
-    onSuccess(googleUser) {
-      console.log(googleUser)
-
-      // This only gets the user information: id, name, imageUrl and email
-      console.log(googleUser.getBasicProfile())
+    onSuccess() {
       this.$router.push({ name: 'home' })
     },
     onFailure(error) {

@@ -43,8 +43,16 @@
       <div>{{ note.status }}: {{ getDate }}</div>
     </div>
     <markdown-editor
+      class="d-none d-md-block"
       ref="md"
       :toolbar="mode === 'edit' ? toolbar : 'fullscreen'"
+      v-model="note.contents"
+      :options="options"
+    ></markdown-editor>
+    <markdown-editor
+      class="d-md-none"
+      ref="mdsm"
+      :toolbar="mode === 'edit' ? toolbarSm : 'fullscreen'"
       v-model="note.contents"
       :options="options"
     ></markdown-editor>
@@ -69,12 +77,15 @@
 
 <script>
 import TheNavbar from '@/components/TheNavbar.vue'
-// import store from '../store'
 import { getNote, saveNote } from '@/asyncActions'
+import { BFormGroup, BFormInput, BButton } from 'bootstrap-vue'
 
 export default {
   components: {
-    TheNavbar
+    TheNavbar,
+    BFormGroup,
+    BFormInput,
+    BButton
   },
   props: {
     id: {
@@ -93,6 +104,8 @@ export default {
       asyncDataReady: false,
       toolbar:
         'clean redo undo bold italic strikethrough heading image link numlist bullist code quote preview fullscreen',
+      toolbarSm:
+        'preview fullscreen redo undo bold italic | strikethrough heading image link numlist bullist | code quote clean',
       options: {
         lineNumbers: true,
         // styleActiveLine: true,
@@ -131,8 +144,9 @@ export default {
     },
     getDate() {
       const d = new Date(this.note.ts)
+      const mins = d.getMinutes()
       return `${d.getDate()}/${d.getMonth() +
-        1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`
+        1}/${d.getFullYear()} ${d.getHours()}:${mins < 10 ? '0' + mins : mins}`
     }
   },
   methods: {
@@ -158,15 +172,11 @@ export default {
   created() {
     const id = parseInt(this.id)
     if (id) {
-      // this.note = store.notes.find(note => note.id === parseInt(this.id))
       getNote(id).then(note => {
         this.note = note
         this.$nextTick(() => {
           this.asyncDataReady = true
           this.$emit('ready')
-          // if (this.mode === 'view') {
-          //   this.$refs.md.command('preview')
-          // }
         })
       })
     } else {
@@ -185,10 +195,9 @@ export default {
     }
   },
   updated() {
-    console.log('updated hook')
-    // this.$emit('ready')
     if (this.mode === 'view') {
       this.$refs.md.command('preview')
+      this.$refs.mdsm.command('preview')
     }
   }
 }

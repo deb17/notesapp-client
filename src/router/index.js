@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '../views/PageIndex.vue'
 import Home from '../views/PageHome.vue'
-import Note from '../views/PageNote.vue'
 import Err from '../views/PageError.vue'
 import NotFound from '../views/PageNotFound.vue'
 import { isSignedIn } from '@/asyncActions'
@@ -25,14 +24,16 @@ const routes = [
   {
     path: '/:mode/:id',
     name: 'old-note',
-    component: Note,
+    component: () =>
+      import(/*webpackChunkName: "pagenote"*/ '../views/PageNote'),
     meta: { requiresAuth: true },
     props: true
   },
   {
     path: '/new',
     name: 'new-note',
-    component: Note,
+    component: () =>
+      import(/*webpackChunkName: "pagenote"*/ '../views/PageNote'),
     meta: { requiresAuth: true }
   },
   {

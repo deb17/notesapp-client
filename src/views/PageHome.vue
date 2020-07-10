@@ -1,7 +1,9 @@
 <template>
   <div v-if="asyncDataReady" class="container">
     <TheNavbar />
-    <b-alert v-if="!!msg" variant="success" show dismissible>{{ msg }}</b-alert>
+    <b-alert v-model="showAlert" variant="success" show dismissible>{{
+      msg
+    }}</b-alert>
     <transition-group name="slide-fade" tag="ul">
       <folder-item
         v-for="name in uniqueStart"
@@ -17,20 +19,23 @@
 </template>
 
 <script>
-// import store from '../store'
 import TheNavbar from '@/components/TheNavbar'
 import FolderItem from '@/components/FolderItem'
 import { getNotes, delFolderServer } from '@/asyncActions'
+import { BAlert } from 'bootstrap-vue'
 
 export default {
   components: {
     TheNavbar,
-    FolderItem
+    FolderItem,
+    BAlert
   },
   data() {
+    const paramsMsg = this.$route.params.msg
     return {
       notes: [],
-      msg: this.$route.params.msg,
+      msg: paramsMsg,
+      showAlert: !!paramsMsg,
       asyncDataReady: false
     }
   },
@@ -66,17 +71,16 @@ export default {
       return this.notes.filter(note => note.folder.startsWith(firstPart))
     },
     deleteFolder({ name, msg, server }) {
-      console.log('in page', name, server)
       if (server) {
         delFolderServer({ folder: name }).then(data => {
           this.notes = this.notes.filter(note => !note.folder.startsWith(name))
           if (msg) {
             this.msg = data.msg
+            this.showAlert = true
           }
         })
       } else {
         this.notes = this.notes.filter(note => !note.folder.startsWith(name))
-        this.msg = 'Folder deleted.'
       }
     },
     sortNotes() {
@@ -106,6 +110,7 @@ export default {
     },
     delMsg(data) {
       this.msg = data.msg
+      this.showAlert = true
     }
   },
   created() {
@@ -127,6 +132,11 @@ export default {
 ul {
   margin-top: 20px;
   margin-left: 40px;
+}
+@media (max-width: 575.9px) {
+  ul {
+    margin-left: 20px;
+  }
 }
 h3 {
   position: absolute;

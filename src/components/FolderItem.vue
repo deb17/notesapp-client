@@ -1,7 +1,8 @@
 <template>
   <li class="folder" v-if="notes.length > 0">
     <div class="raise">
-      {{ getFolderName }}
+      <span class="d-none d-sm-inline">{{ getFolderName }}</span>
+      <span class="d-sm-none">{{ getFolderNameSm }}</span>
       <img
         class="caret"
         :class="{ 'caret-active': showNotes }"
@@ -74,6 +75,10 @@ export default {
     },
     getFolderName() {
       return this.name.split('/')[0]
+    },
+    getFolderNameSm() {
+      const folName = this.firstPart
+      return folName.replace(/\//g, ' / ')
     },
     folderNames() {
       let prev = ''
@@ -155,7 +160,6 @@ export default {
       })
     },
     deleteFolder({ name, msg, server }) {
-      console.log('in component', name, server)
       if (server) {
         delFolderServer({ folder: name }).then(data => {
           this.loaderShow = false
@@ -225,5 +229,10 @@ li {
 }
 li.folder {
   list-style-image: url(../assets/folder.svg);
+}
+@media (max-width: 575.9px) {
+  ul {
+    padding-inline-start: 0;
+  }
 }
 </style>

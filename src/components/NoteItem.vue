@@ -104,6 +104,11 @@ li {
 li.file {
   list-style-image: url(../assets/file.svg);
 }
+@media (max-width: 575.9px) {
+  li.file {
+    margin-left: 20px;
+  }
+}
 a {
   color: blue;
 }
