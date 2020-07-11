@@ -224,11 +224,9 @@ ul {
   position: relative;
   bottom: 2px;
 }
-li {
-  padding: 5px 0;
-}
 li.folder {
   list-style-image: url(../assets/folder.svg);
+  padding: 5px 0px 5px 5px;
 }
 @media (max-width: 575.9px) {
   ul {

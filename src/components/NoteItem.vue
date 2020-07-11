@@ -98,11 +98,9 @@ export default {
   position: relative;
   bottom: 2px;
 }
-li {
-  padding: 5px 0;
-}
 li.file {
   list-style-image: url(../assets/file.svg);
+  padding: 5px 0px 5px 5px;
 }
 @media (max-width: 575.9px) {
   li.file {
@@ -110,6 +108,6 @@ li.file {
   }
 }
 a {
-  color: blue;
+  color: #0000ee;
 }
 </style>
