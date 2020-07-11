@@ -29,6 +29,16 @@
 
 <script>
 import GoogleLogin from 'vue-google-login'
+
+const getElHeight = () => {
+  const propValue = document.documentElement.style.getPropertyValue('--vh')
+  if (!propValue) {
+    return window.innerHeight
+  }
+  const elHeight = Number(propValue.replace('px', '')) * 100
+  return Math.min(elHeight, window.innerHeight)
+}
+
 export default {
   data() {
     return {
@@ -58,10 +68,10 @@ export default {
     this.$emit('ready')
   },
   mounted() {
-    let vh = window.innerHeight * 0.01
+    let vh = getElHeight() * 0.01
     document.documentElement.style.setProperty('--vh', `${vh}px`)
     window.addEventListener('resize', () => {
-      let vh = window.innerHeight * 0.01
+      let vh = getElHeight() * 0.01
       document.documentElement.style.setProperty('--vh', `${vh}px`)
     })
   }
