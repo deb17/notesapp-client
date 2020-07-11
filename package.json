@@ -13,7 +13,6 @@
     "core-js": "^3.6.5",
     "v-markdown-editor": "^1.2.5",
     "vue": "^2.6.11",
-    "vue-100vh": "^0.1.1",
     "vue-google-login": "^2.0.5",
     "vue-router": "^3.2.0"
   },

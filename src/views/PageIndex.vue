@@ -1,39 +1,34 @@
 <template>
-  <vue100vh class="index" :css="{ height: '100rvh' }">
-    <marquee>
-      <vue100vh :style="{ height: '90rvh' }">
-        <marquee>
-          <h1>Create and Persist your Personal Notes</h1>
-          <GoogleLogin
-            class="signin"
-            :params="params"
-            :renderParams="renderParams"
-            :onSuccess="onSuccess"
-            :onFailure="onFailure"
-          ></GoogleLogin>
-        </marquee>
-      </vue100vh>
-      <div id="credits">
-        <span
-          >Photo by
-          <a
-            href="https://unsplash.com/@markusspiske?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
-            >Markus Spiske</a
-          >
-          on
-          <a
-            href="/t/nature?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
-            >Unsplash</a
-          ></span
+  <div class="index">
+    <div id="content">
+      <h1>Create and Persist your Personal Notes</h1>
+      <GoogleLogin
+        class="signin"
+        :params="params"
+        :renderParams="renderParams"
+        :onSuccess="onSuccess"
+        :onFailure="onFailure"
+      ></GoogleLogin>
+    </div>
+    <div id="credits">
+      <span
+        >Photo by
+        <a
+          href="https://unsplash.com/@markusspiske?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
+          >Markus Spiske</a
         >
-      </div>
-    </marquee>
-  </vue100vh>
+        on
+        <a
+          href="/t/nature?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"
+          >Unsplash</a
+        ></span
+      >
+    </div>
+  </div>
 </template>
 
 <script>
 import GoogleLogin from 'vue-google-login'
-import vue100vh from 'vue-100vh'
 export default {
   data() {
     return {
@@ -49,8 +44,7 @@ export default {
     }
   },
   components: {
-    GoogleLogin,
-    vue100vh
+    GoogleLogin
   },
   methods: {
     onSuccess() {
@@ -68,10 +62,24 @@ export default {
 
 <style scoped>
 .index {
+  height: 100vh;
   background-image: url(../assets/nature.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+#content {
+  height: 90vh;
+}
+
+@media (max-width: 450px) {
+  .index {
+    height: -webkit-fill-available;
+  }
+  #content {
+    height: 90%;
+  }
 }
 
 h1 {
