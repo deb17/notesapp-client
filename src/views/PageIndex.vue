@@ -74,11 +74,8 @@ export default {
 }
 
 @media (max-width: 450px) {
-  .index {
-    height: -webkit-fill-available;
-  }
   #content {
-    height: 90%;
+    height: 85vh;
   }
 }
 
