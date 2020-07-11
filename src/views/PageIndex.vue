@@ -56,6 +56,14 @@ export default {
   },
   created() {
     this.$emit('ready')
+  },
+  mounted() {
+    let vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+    window.addEventListener('resize', () => {
+      let vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+    })
   }
 }
 </script>
@@ -63,6 +71,7 @@ export default {
 <style scoped>
 .index {
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   background-image: url(../assets/nature.jpg);
   background-size: cover;
   background-repeat: no-repeat;
@@ -70,13 +79,7 @@ export default {
 }
 
 #content {
-  height: 90vh;
-}
-
-@media (max-width: 450px) {
-  #content {
-    height: 85vh;
-  }
+  height: 90%;
 }
 
 h1 {

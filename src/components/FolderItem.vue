@@ -196,6 +196,7 @@ export default {
 <style scoped>
 ul {
   padding-left: 25px;
+  margin-left: -5px;
 }
 .raise {
   position: relative;
