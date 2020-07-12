@@ -56,10 +56,11 @@ export default {
   padding-bottom: 4px;
 }
 .nav-item {
-  margin: 0 20px;
+  margin-right: 25px;
 }
 .navBar .nav-item:last-child {
   float: right;
+  margin-right: 0;
 }
 .signout {
   background: none;

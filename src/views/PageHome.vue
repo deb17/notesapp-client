@@ -114,16 +114,12 @@ export default {
     }
   },
   created() {
-    getNotes()
-      .then(res => {
-        this.notes = res.data.notes
-        this.sortNotes()
-        this.asyncDataReady = true
-        this.$emit('ready')
-      })
-      .catch(err => {
-        this.$router.push({ name: 'error', params: { error: err } })
-      })
+    getNotes().then(notes => {
+      this.notes = notes
+      this.sortNotes()
+      this.asyncDataReady = true
+      this.$emit('ready')
+    })
   }
 }
 </script>

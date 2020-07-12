@@ -42,6 +42,7 @@
       </div>
       <div>{{ note.status }}: {{ getDate }}</div>
     </div>
+    <h4 id="use-md" v-if="mode === 'edit'">Use Markdown!</h4>
     <markdown-editor
       class="d-none d-md-block"
       ref="md"
@@ -204,12 +205,15 @@ export default {
 </script>
 
 <style scoped>
+#use-md {
+  font-family: 'Galada', cursive;
+}
 .error {
   color: red;
   font-size: 0.9rem;
 }
 .ed-btn {
   float: right;
-  margin: 10px 0 0 10px;
+  margin: 10px 0 10px 10px;
 }
 </style>

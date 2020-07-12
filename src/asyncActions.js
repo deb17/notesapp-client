@@ -20,18 +20,10 @@ const accessServer = () => {
   })
 }
 
-const getNotes = () => {
-  return accessServer().then(data => {
-    return axios.get('/notes', {
-      headers: { 'X-id-token': data }
-    })
-  })
-}
-
-const getNote = id => {
+const getCommon = url => {
   return accessServer().then(data => {
     return axios
-      .get('/note/' + id, {
+      .get(url, {
         headers: { 'X-id-token': data }
       })
       .then(res => {
@@ -51,6 +43,14 @@ const getNote = id => {
         })
       })
   })
+}
+
+const getNotes = () => {
+  return getCommon('/notes')
+}
+
+const getNote = id => {
+  return getCommon('/note/' + id)
 }
 
 const saveNote = note => {
