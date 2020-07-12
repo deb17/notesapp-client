@@ -114,8 +114,8 @@ export default {
     }
   },
   created() {
-    getNotes().then(notes => {
-      this.notes = notes
+    getNotes().then(data => {
+      this.notes = data.notes
       this.sortNotes()
       this.asyncDataReady = true
       this.$emit('ready')
