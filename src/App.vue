@@ -36,10 +36,9 @@ body {
 .container {
   max-width: 800px;
   margin: auto;
-  position: relative;
 }
 .slide-fade-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
   background-color: white;
 }
 .slide-fade-leave-to {

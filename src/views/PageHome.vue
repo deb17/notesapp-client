@@ -4,6 +4,7 @@
     <b-alert v-model="showAlert" variant="success" show dismissible>{{
       msg
     }}</b-alert>
+    <h3 v-if="notes.length === 0">There are no notes to show.</h3>
     <transition-group name="slide-fade" tag="ul">
       <folder-item
         v-for="name in uniqueStart"
@@ -14,7 +15,6 @@
         @delEvent="delMsg"
       />
     </transition-group>
-    <h3 v-if="notes.length === 0">There are no notes to show.</h3>
   </div>
 </template>
 
@@ -139,7 +139,6 @@ ul {
   }
 }
 h3 {
-  position: absolute;
-  top: 100px;
+  margin-top: 40px;
 }
 </style>
