@@ -1,6 +1,12 @@
 <template>
   <div>
-    <b-modal id="signin-modal" title="Sign In" @close="close" hide-footer>
+    <b-modal
+      id="signin-modal"
+      title="Sign In"
+      @close="close"
+      :static="true"
+      hide-footer
+    >
       <b-alert variant="danger" :show="showAlert">{{ alertMsg }}</b-alert>
       <b-form @submit.prevent="onSubmit">
         <b-form-group
