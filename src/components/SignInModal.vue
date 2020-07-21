@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="signin-modal-div">
     <b-modal
       id="signin-modal"
       title="Sign In"
@@ -168,7 +168,7 @@ export default {
 </script>
 
 <style scoped>
-#signin-modal {
+#signin-modal-div {
   text-align: left;
 }
 .signin >>> .abcRioButton {
