@@ -79,14 +79,10 @@
 <script>
 import TheNavbar from '@/components/TheNavbar.vue'
 import { getNote, saveNote } from '@/asyncActions'
-import { BFormGroup, BFormInput, BButton } from 'bootstrap-vue'
 
 export default {
   components: {
-    TheNavbar,
-    BFormGroup,
-    BFormInput,
-    BButton
+    TheNavbar
   },
   props: {
     id: {

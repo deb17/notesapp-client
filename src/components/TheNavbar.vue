@@ -2,14 +2,14 @@
   <nav class="navBar">
     <router-link class="nav-item" :to="{ name: 'home' }">Home</router-link>
     <router-link class="nav-item" :to="{ name: 'new-note' }">New</router-link>
-    <span class="nav-item"
-      ><GoogleLogin
+    <span class="nav-item">
+      <GoogleLogin
         class="signout"
         :params="params"
         :onSuccess="onSuccess"
         :onFailure="onFailure"
         :logoutButton="true"
-        >Logout</GoogleLogin
+        >Signout</GoogleLogin
       ></span
     >
   </nav>
@@ -17,12 +17,13 @@
 
 <script>
 import GoogleLogin from 'vue-google-login'
+
 export default {
   data() {
     return {
       params: {
         client_id:
-          '691323965407-j0d8hin5iv5jpphq22nkg098a60l0e2g.apps.googleusercontent.com'
+          '691323965407-06b59esetlkeo12g0cpogpmri7va1nd7.apps.googleusercontent.com'
       }
     }
   },
@@ -31,10 +32,14 @@ export default {
   },
   methods: {
     onSuccess() {
+      localStorage.removeItem('token')
       this.$router.push({ name: 'index' })
     },
     onFailure(error) {
       console.log(error)
+    },
+    onSignout() {
+      localStorage.removeItem('token')
     }
   }
 }

@@ -4,6 +4,7 @@ import Index from '../views/PageIndex.vue'
 import Home from '../views/PageHome.vue'
 import Err from '../views/PageError.vue'
 import NotFound from '../views/PageNotFound.vue'
+import PasswordReset from '../views/PagePasswordReset.vue'
 import { isSignedIn } from '@/asyncActions'
 
 Vue.use(VueRouter)
@@ -20,6 +21,12 @@ const routes = [
     name: 'home',
     component: Home,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/password_reset/:token',
+    name: 'password_reset',
+    component: PasswordReset,
+    props: true
   },
   {
     path: '/:mode/:id',
@@ -56,23 +63,22 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  isSignedIn().then(data => {
-    if (to.meta.requiresAuth) {
-      if (data) {
-        next()
-      } else {
-        next({ name: 'index' })
-      }
-    } else if (to.meta.requiresAuth === false) {
-      if (data) {
-        next({ name: 'home' })
-      } else {
-        next()
-      }
+  const signedIn = isSignedIn()
+  if (to.meta.requiresAuth) {
+    if (signedIn) {
+      next()
+    } else {
+      next({ name: 'index' })
+    }
+  } else if (to.meta.requiresAuth === false) {
+    if (signedIn) {
+      next({ name: 'home' })
     } else {
       next()
     }
-  })
+  } else {
+    next()
+  }
 })
 
 export default router

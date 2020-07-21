@@ -2,13 +2,16 @@
   <div class="index">
     <div id="content">
       <h1>Create and Persist your Personal Notes</h1>
-      <GoogleLogin
-        class="signin"
-        :params="params"
-        :renderParams="renderParams"
-        :onSuccess="onSuccess"
-        :onFailure="onFailure"
-      ></GoogleLogin>
+      <sign-in-modal
+        ref="child-1"
+        @showSignUpModal="showSignUpModal"
+        @showPassResetModal="showPassResetModal"
+      />
+      <sign-up-modal ref="child-2" />
+      <password-reset-request-modal ref="child-3" />
+      <b-button size="lg" variant="success" @click="showSignInModal"
+        >Sign in</b-button
+      >
     </div>
     <div id="credits">
       <span
@@ -28,30 +31,24 @@
 </template>
 
 <script>
-import GoogleLogin from 'vue-google-login'
+import SignInModal from '@/components/SignInModal'
+import SignUpModal from '@/components/SignUpModal'
+import PasswordResetRequestModal from '@/components/PasswordResetRequestModal'
 export default {
-  data() {
-    return {
-      params: {
-        client_id:
-          '691323965407-j0d8hin5iv5jpphq22nkg098a60l0e2g.apps.googleusercontent.com'
-      },
-      renderParams: {
-        width: 250,
-        height: 50,
-        longtitle: true
-      }
-    }
-  },
   components: {
-    GoogleLogin
+    SignInModal,
+    SignUpModal,
+    PasswordResetRequestModal
   },
   methods: {
-    onSuccess() {
-      this.$router.push({ name: 'home' })
+    showSignInModal() {
+      this.$refs['child-1'].show()
     },
-    onFailure(error) {
-      console.log(error)
+    showSignUpModal() {
+      this.$refs['child-2'].show()
+    },
+    showPassResetModal() {
+      this.$refs['child-3'].show()
     }
   },
   created() {
@@ -81,23 +78,18 @@ export default {
 
 #content {
   height: 90%;
+  text-align: center;
 }
 
 h1 {
   margin: auto;
   max-width: 400px;
-  padding: 100px 0 60px;
+  padding: 100px 0 40px;
   font-family: 'Galada', cursive;
   font-size: 3rem;
   line-height: 3rem;
   text-align: center;
   color: #333;
-}
-
-.signin >>> .abcRioButton {
-  margin: auto;
-  background-color: lightblue;
-  border-radius: 20px;
 }
 
 #credits span {

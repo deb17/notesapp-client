@@ -1,48 +1,75 @@
-import Vue from 'vue'
-import { LoaderPlugin } from 'vue-google-login'
 import axios from 'axios'
 import router from './router'
 
-Vue.use(LoaderPlugin, {
-  client_id:
-    '691323965407-j0d8hin5iv5jpphq22nkg098a60l0e2g.apps.googleusercontent.com'
-})
-
 const isSignedIn = () => {
-  return Vue.GoogleAuth.then(auth2 => auth2.isSignedIn.get())
+  const token = localStorage.getItem('token')
+  return !!token
 }
 
-const accessServer = () => {
-  return Vue.GoogleAuth.then(auth2 => {
-    const googleUser = auth2.currentUser.get()
-    const authData = googleUser.getAuthResponse()
-    return authData.id_token
+const signCommon = (url, form) => {
+  return axios
+    .post(url, form, {
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+    .then(res => {
+      if (res.data.msg) {
+        return res.data.msg
+      }
+      const token = res.data.token
+      localStorage.setItem('token', token)
+      router.push({ name: 'home' })
+    })
+    .catch(err => err)
+}
+
+const signup = form => {
+  return signCommon('/signup', form)
+}
+
+const signin = form => {
+  return signCommon('/signin', form)
+}
+
+const passwordResetRequest = form => {
+  return axios.post('/reset_password_request', form, {
+    headers: {
+      'Content-type': 'application/json'
+    }
+  })
+}
+
+const passwordReset = (form, token) => {
+  return axios.post('/reset_password/' + token, form, {
+    headers: {
+      'Content-type': 'application/json'
+    }
   })
 }
 
 const getCommon = url => {
-  return accessServer().then(data => {
-    return axios
-      .get(url, {
-        headers: { 'X-id-token': data }
-      })
-      .then(res => {
-        if (res.data.error) {
-          router.push({
-            name: 'error',
-            params: { error: res.data.error }
-          })
-        } else {
-          return res.data
-        }
-      })
-      .catch(err => {
+  const token = localStorage.getItem('token')
+  return axios
+    .get(url, {
+      headers: { 'X-access-token': token }
+    })
+    .then(res => {
+      if (res.data.error) {
         router.push({
           name: 'error',
-          params: { error: err }
+          params: { error: res.data.error }
         })
+      } else {
+        return res.data
+      }
+    })
+    .catch(err => {
+      router.push({
+        name: 'error',
+        params: { error: err }
       })
-  })
+    })
 }
 
 const getNotes = () => {
@@ -54,82 +81,83 @@ const getNote = id => {
 }
 
 const saveNote = note => {
+  const token = localStorage.getItem('token')
   let method = null
   if (note.id === 0) {
     method = 'post'
   } else {
     method = 'put'
   }
-  accessServer().then(data => {
-    axios({
-      url: '/save',
-      method,
-      headers: {
-        'X-id-token': data,
-        'Content-type': 'application/json'
-      },
-      data: JSON.stringify(note)
-    })
-      .then(res => {
-        if (res.data.error) {
-          router.push({
-            name: 'error',
-            params: { error: res.data.error }
-          })
-        } else {
-          router.push({
-            name: 'home',
-            params: { msg: 'Note saved.' }
-          })
-        }
-      })
-      .catch(err => {
+  axios({
+    url: '/save',
+    method,
+    headers: {
+      'X-access-token': token,
+      'Content-type': 'application/json'
+    },
+    data: note
+  })
+    .then(res => {
+      if (res.data.error) {
         router.push({
           name: 'error',
-          params: { error: err }
+          params: { error: res.data.error }
         })
+      } else {
+        router.push({
+          name: 'home',
+          params: { msg: 'Note saved.' }
+        })
+      }
+    })
+    .catch(err => {
+      router.push({
+        name: 'error',
+        params: { error: err }
       })
-  })
+    })
 }
 
 const delNoteServer = id => {
-  return accessServer().then(data => {
-    return axios
-      .delete('/delete/' + id, {
-        headers: { 'X-id-token': data }
+  const token = localStorage.getItem('token')
+  return axios
+    .delete('/delete/' + id, {
+      headers: { 'X-access-token': token }
+    })
+    .then(res => res.data)
+    .catch(err => {
+      router.push({
+        name: 'error',
+        params: { error: err }
       })
-      .then(res => res.data)
-      .catch(err => {
-        router.push({
-          name: 'error',
-          params: { error: err }
-        })
-      })
-  })
+    })
 }
 
 const delFolderServer = obj => {
-  return accessServer().then(data => {
-    return axios
-      .delete('/delete', {
-        headers: {
-          'X-id-token': data,
-          'Content-type': 'application/json'
-        },
-        data: JSON.stringify(obj)
+  const token = localStorage.getItem('token')
+  return axios
+    .delete('/delete', {
+      headers: {
+        'X-access-token': token,
+        'Content-type': 'application/json'
+      },
+      data: obj
+    })
+    .then(res => res.data)
+    .catch(err => {
+      router.push({
+        name: 'error',
+        params: { error: err }
       })
-      .then(res => res.data)
-      .catch(err => {
-        router.push({
-          name: 'error',
-          params: { error: err }
-        })
-      })
-  })
+    })
 }
 
 export {
   isSignedIn,
+  signup,
+  signin,
+  passwordResetRequest,
+  passwordReset,
   getNotes,
   getNote,
   saveNote,

@@ -22,13 +22,11 @@
 import TheNavbar from '@/components/TheNavbar'
 import FolderItem from '@/components/FolderItem'
 import { getNotes, delFolderServer } from '@/asyncActions'
-import { BAlert } from 'bootstrap-vue'
 
 export default {
   components: {
     TheNavbar,
-    FolderItem,
-    BAlert
+    FolderItem
   },
   data() {
     const paramsMsg = this.$route.params.msg
