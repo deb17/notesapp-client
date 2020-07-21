@@ -168,6 +168,9 @@ export default {
 </script>
 
 <style scoped>
+#signin-modal {
+  text-align: left;
+}
 .signin >>> .abcRioButton {
   margin: auto;
   background-color: lightblue;
