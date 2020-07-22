@@ -1,23 +1,8 @@
-import Vue from 'vue'
 import axios from 'axios'
 import router from './router'
-import { LoaderPlugin } from 'vue-google-login'
 
 const CLIENT_ID =
   '691323965407-05s3r90hqiee3b7brkrr06h4162t0siq.apps.googleusercontent.com'
-
-Vue.use(LoaderPlugin, {
-  client_id: CLIENT_ID,
-  cookiepolicy: 'single_host_origin'
-})
-
-const googleSignOut = () => {
-  Vue.GoogleAuth.then(auth2 => {
-    auth2.signOut()
-    localStorage.removeItem('token')
-    router.push({ name: 'index' })
-  })
-}
 
 const isSignedIn = () => {
   const token = localStorage.getItem('token')
@@ -172,7 +157,6 @@ const delFolderServer = obj => {
 
 export {
   CLIENT_ID,
-  googleSignOut,
   isSignedIn,
   signup,
   signin,

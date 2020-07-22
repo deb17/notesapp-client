@@ -17,7 +17,7 @@
 
 <script>
 import GoogleLogin from 'vue-google-login'
-import { CLIENT_ID, googleSignOut } from '@/asyncActions'
+import { CLIENT_ID } from '@/asyncActions'
 
 export default {
   data() {
@@ -37,7 +37,6 @@ export default {
     },
     onFailure(error) {
       console.log(error)
-      googleSignOut()
     },
     onSignout() {
       localStorage.removeItem('token')
