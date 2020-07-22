@@ -73,14 +73,13 @@
 <script>
 import GoogleLogin from 'vue-google-login'
 import { required, email } from 'vuelidate/lib/validators'
-import { signin } from '@/asyncActions'
+import { CLIENT_ID, signin } from '@/asyncActions'
 
 export default {
   data() {
     return {
       params: {
-        client_id:
-          '691323965407-05s3r90hqiee3b7brkrr06h4162t0siq.apps.googleusercontent.com'
+        client_id: CLIENT_ID
       },
       renderParams: {
         width: 250,

@@ -17,13 +17,13 @@
 
 <script>
 import GoogleLogin from 'vue-google-login'
+import { CLIENT_ID, googleSignOut } from '@/asyncActions'
 
 export default {
   data() {
     return {
       params: {
-        client_id:
-          '691323965407-06b59esetlkeo12g0cpogpmri7va1nd7.apps.googleusercontent.com'
+        client_id: CLIENT_ID
       }
     }
   },
@@ -37,6 +37,7 @@ export default {
     },
     onFailure(error) {
       console.log(error)
+      googleSignOut()
     },
     onSignout() {
       localStorage.removeItem('token')
