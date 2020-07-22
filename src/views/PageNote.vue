@@ -67,6 +67,7 @@
       <b-button size="lg" class="ed-btn" variant="secondary" @click="cancel"
         >Cancel</b-button
       >
+      <img class="loader" v-show="loaderShow" src="../assets/save-loader.gif" />
     </div>
     <div v-else>
       <b-button size="lg" class="ed-btn" variant="secondary" @click="cancel"
@@ -99,6 +100,7 @@ export default {
       note: null,
       showError: false,
       asyncDataReady: false,
+      loaderShow: false,
       toolbar:
         'clean redo undo bold italic strikethrough heading image link numlist bullist code quote preview fullscreen',
       toolbarSm:
@@ -157,6 +159,7 @@ export default {
           this.note.status = 'Updated'
         }
         this.note.ts = Date.now()
+        this.loaderShow = true
         saveNote(this.note)
       } else if (!this.note.contents) {
         this.showError = true
@@ -211,5 +214,9 @@ export default {
 .ed-btn {
   float: right;
   margin: 10px 0 10px 10px;
+}
+.loader {
+  float: right;
+  margin: 10px;
 }
 </style>
