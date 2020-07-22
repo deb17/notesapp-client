@@ -218,5 +218,6 @@ export default {
 .loader {
   float: right;
   margin: 10px;
+  padding-top: 10px;
 }
 </style>
