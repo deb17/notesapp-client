@@ -59,15 +59,13 @@
       <div class="loader" v-show="googleLoader">
         <img src="../assets/white-bg-loader.gif" />
       </div>
-      <div v-if="onLoad" @load="onLoad = true">
-        <GoogleLogin
-          class="signin"
-          :params="params"
-          :renderParams="renderParams"
-          :onSuccess="onSuccess"
-          :onFailure="onFailure"
-        ></GoogleLogin>
-      </div>
+      <GoogleLogin
+        class="signin"
+        :params="params"
+        :renderParams="renderParams"
+        :onSuccess="onSuccess"
+        :onFailure="onFailure"
+      ></GoogleLogin>
     </b-modal>
   </div>
 </template>
@@ -92,7 +90,6 @@ export default {
         email: '',
         password: ''
       },
-      onLoad: false,
       loaderShow: false,
       googleLoader: false,
       showAlert: false,
