@@ -59,7 +59,7 @@
       <div class="loader" v-show="googleLoader">
         <img src="../assets/white-bg-loader.gif" />
       </div>
-      <div v-if="onLoad" @load="onLoad = true">
+      <div v-if="onLoad">
         <GoogleLogin
           class="signin"
           :params="params"
@@ -165,6 +165,9 @@ export default {
       this.close()
       this.$emit('showPassResetModal')
     }
+  },
+  mounted() {
+    this.onLoad = true
   }
 }
 </script>
