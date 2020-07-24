@@ -53,13 +53,15 @@
       <div class="loader" v-show="googleLoader">
         <img src="../assets/white-bg-loader.gif" />
       </div>
-      <GoogleLogin
-        class="signin"
-        :params="params"
-        :renderParams="renderParams"
-        :onSuccess="onSuccess"
-        :onFailure="onFailure"
-      ></GoogleLogin>
+      <div id="google-signin">
+        <GoogleLogin
+          class="signin"
+          :params="params"
+          :onSuccess="onSuccess"
+          :onFailure="onFailure"
+          >Login</GoogleLogin
+        >
+      </div>
     </b-modal>
   </div>
 </template>
@@ -74,11 +76,6 @@ export default {
     return {
       params: {
         client_id: CLIENT_ID
-      },
-      renderParams: {
-        width: 250,
-        height: 50,
-        longtitle: true
       },
       form: {
         email: '',
@@ -161,13 +158,8 @@ export default {
 </script>
 
 <style scoped>
-#signin-modal-div {
-  text-align: left;
-}
-.signin >>> .abcRioButton {
-  margin: auto;
-  background-color: lightblue;
-  border-radius: 20px;
+#google-signin {
+  text-align: center;
 }
 .text {
   font-size: 0.8rem;
