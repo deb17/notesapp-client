@@ -13,7 +13,6 @@
         >Sign in</b-button
       >
       <GoogleLogin
-        v-show="false"
         class="signin"
         :params="params"
         :renderParams="renderParams"
