@@ -15,17 +15,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
-import { LoaderPlugin } from 'vue-google-login'
-import { CLIENT_ID } from './asyncActions'
 import Vuelidate from 'vuelidate'
 
 axios.defaults.baseURL = 'https://storenotes.pythonanywhere.com/api'
 
 Vue.use(Editor)
 Vue.use(ModalPlugin)
-Vue.use(LoaderPlugin, {
-  client_id: CLIENT_ID
-})
 Vue.use(Vuelidate)
 
 Vue.config.productionTip = false

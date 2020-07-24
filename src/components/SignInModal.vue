@@ -61,14 +61,6 @@
         :onFailure="onFailure"
       ></GoogleLogin>
     </b-modal>
-    <GoogleLogin
-      v-show="false"
-      class="signin"
-      :params="params"
-      :renderParams="renderParams"
-      :onSuccess="onSuccess"
-      :onFailure="onFailure"
-    ></GoogleLogin>
   </div>
 </template>
 

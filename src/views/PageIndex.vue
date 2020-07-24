@@ -12,6 +12,14 @@
       <b-button size="lg" variant="success" @click="showSignInModal"
         >Sign in</b-button
       >
+      <GoogleLogin
+        v-show="false"
+        class="signin"
+        :params="params"
+        :renderParams="renderParams"
+        :onSuccess="onSuccess"
+        :onFailure="onFailure"
+      ></GoogleLogin>
     </div>
     <div id="credits">
       <span
@@ -31,14 +39,29 @@
 </template>
 
 <script>
+import GoogleLogin from 'vue-google-login'
+import { CLIENT_ID } from '@/asyncActions'
 import SignInModal from '@/components/SignInModal'
 import SignUpModal from '@/components/SignUpModal'
 import PasswordResetRequestModal from '@/components/PasswordResetRequestModal'
 export default {
   components: {
+    GoogleLogin,
     SignInModal,
     SignUpModal,
     PasswordResetRequestModal
+  },
+  data() {
+    return {
+      params: {
+        client_id: CLIENT_ID
+      },
+      renderParams: {
+        width: 250,
+        height: 50,
+        longtitle: true
+      }
+    }
   },
   methods: {
     showSignInModal() {
@@ -49,7 +72,9 @@ export default {
     },
     showPassResetModal() {
       this.$refs['child-3'].show()
-    }
+    },
+    onSuccess() {},
+    onFailure() {}
   },
   created() {
     this.$emit('ready')
