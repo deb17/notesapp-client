@@ -53,11 +53,19 @@
       <div class="loader" v-show="googleLoader">
         <img src="../assets/white-bg-loader.gif" />
       </div>
+      <GoogleLogin
+        class="signin"
+        :params="params"
+        :renderParams="renderParams"
+        :onSuccess="onSuccess"
+        :onFailure="onFailure"
+      ></GoogleLogin>
     </b-modal>
   </div>
 </template>
 
 <script>
+import GoogleLogin from 'vue-google-login'
 import { required, email } from 'vuelidate/lib/validators'
 import { CLIENT_ID, signin } from '@/asyncActions'
 
@@ -82,7 +90,9 @@ export default {
       alertMsg: ''
     }
   },
-  components: {},
+  components: {
+    GoogleLogin
+  },
   validations: {
     form: {
       email: {
