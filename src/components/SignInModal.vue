@@ -59,7 +59,10 @@
           :params="params"
           :onSuccess="onSuccess"
           :onFailure="onFailure"
-          >Login</GoogleLogin
+          ><img id="google-btn-svg" src="./google-btn.svg" /><span
+            id="button-text"
+            >Sign in with Google</span
+          ></GoogleLogin
         >
       </div>
     </b-modal>
@@ -160,6 +163,25 @@ export default {
 <style scoped>
 #google-signin {
   text-align: center;
+}
+.signin {
+  width: 250px;
+  background-color: lightblue;
+  outline: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+#button-text {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding-left: 15px;
+}
+#google-btn-svg {
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
 }
 .text {
   font-size: 0.8rem;
