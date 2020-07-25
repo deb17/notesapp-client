@@ -59,7 +59,7 @@
           :params="params"
           :onSuccess="onSuccess"
           :onFailure="onFailure"
-          ><img id="google-btn-svg" src="./google-btn.svg" /><span
+          ><img id="google-btn-svg" src="../assets/google-btn.svg" /><span
             id="button-text"
             >Sign in with Google</span
           ></GoogleLogin
