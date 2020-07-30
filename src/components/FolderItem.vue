@@ -9,6 +9,11 @@
         @click="showNotes = !showNotes"
         src="../assets/caret.svg"
       />
+      <router-link
+        :to="{ name: 'new-note', params: { folder: newNoteFolder } }"
+      >
+        <img class="add-note" src="../assets/plus.svg" alt="Add" />
+      </router-link>
       <img class="trash" src="../assets/trash.svg" @click="showFolderModal" />
       <img
         v-show="loaderShow"
@@ -79,6 +84,9 @@ export default {
     getFolderNameSm() {
       const folName = this.firstPart
       return folName.replace(/\//g, ' / ')
+    },
+    newNoteFolder() {
+      return this.firstPart
     },
     folderNames() {
       let prev = ''
@@ -206,7 +214,6 @@ ul {
   position: relative;
   bottom: 2px;
   margin-left: 15px;
-  margin-right: 5px;
   cursor: pointer;
 }
 .caret {
@@ -215,9 +222,13 @@ ul {
 .caret-active {
   transform: rotate(180deg);
 }
-.trash {
+.add-note {
+  margin: 0px 10px;
+}
+.trash,
+.add-note {
   position: relative;
-  bottom: 2px;
+  bottom: 3px;
   cursor: pointer;
 }
 .item-loader {

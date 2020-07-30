@@ -90,7 +90,7 @@ export default {
 }
 .trash {
   position: relative;
-  bottom: 2px;
+  bottom: 3px;
   cursor: pointer;
 }
 .item-loader {

@@ -183,7 +183,7 @@ export default {
       this.note = {
         id,
         title: null,
-        folder: 'main',
+        folder: this.$route.params.folder || 'main',
         contents: '',
         status: 'Created',
         ts: 0

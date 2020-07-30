@@ -37,9 +37,6 @@ export default {
     },
     onFailure(error) {
       console.log(error)
-    },
-    onSignout() {
-      localStorage.removeItem('token')
     }
   }
 }
