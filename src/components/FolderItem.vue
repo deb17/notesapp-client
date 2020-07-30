@@ -10,6 +10,7 @@
         src="../assets/caret.svg"
       />
       <router-link
+        class="note-link"
         :to="{ name: 'new-note', params: { folder: newNoteFolder } }"
       >
         <img class="add-note" src="../assets/plus.svg" alt="Add" />
@@ -222,11 +223,14 @@ ul {
 .caret-active {
   transform: rotate(180deg);
 }
-.add-note {
+.note-link {
   margin: 0px 10px;
 }
-.trash,
 .add-note {
+  position: relative;
+  bottom: 3px;
+}
+.trash {
   position: relative;
   bottom: 3px;
   cursor: pointer;
