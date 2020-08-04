@@ -37,6 +37,8 @@ export default {
     },
     onFailure(error) {
       console.log(error)
+      localStorage.removeItem('token')
+      this.$router.push({ name: 'index' })
     }
   }
 }
